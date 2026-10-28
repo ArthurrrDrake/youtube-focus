@@ -1,3 +1,8 @@
+# ▶️ YouTube Focus (TizenTube fork)
+
+> Modified version of [TizenTube](https://github.com/reisxd/TizenTube) (GPL-3.0), changed 2026-10-28.
+> The home screen only keeps the rows listed in `mods/utils/homeRows.js` (Continue watching, Subscriptions, Watch later, Consumer electronics and more). Turn it off in TizenTube settings → Miscellaneous → "Only Show Chosen Home Rows".
+
 # ▶️ TizenTube
 <p align="center">
     <img width="600px" src=".github/assets/TizenTube Standalone Banner.png">

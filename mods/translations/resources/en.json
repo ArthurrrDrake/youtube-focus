@@ -61,6 +61,8 @@
                     "hqThumbnails": "Enable High Quality Thumbnails",
                     "longPress": "Enable Long Press Actions",
                     "shorts": "Enable Shorts",
+                    "homeRowFilter": "Only Show Chosen Home Rows",
+                    "homeRowFilterToast": "Show Home Filter Summary",
                     "videoPreviews": "Enable Video Previews",
                     "ttWelcomeMsg": "Show TT Welcome Message",
                     "guestSignInReminder": "Show Guest Sign In Reminder",
@@ -328,5 +330,10 @@
             "title": "Sidebar Contents Updated",
             "subtitle": "The sidebar contents have been updated."
         }
+    },
+    "homeRowFilter": {
+        "title": "Home filter",
+        "summary": "Kept: {{kept}} | Hidden: {{hidden}}",
+        "unreadable": "Could not read the row names, so nothing was hidden."
     }
 }

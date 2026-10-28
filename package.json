@@ -1,8 +1,8 @@
 {
-  "name": "@foxreis/tizentube",
-  "appName": "TizenTube",
-  "version": "1.15.2",
-  "description": "TizenTube is an ad-free and sponsor-free solution for your favourite streaming website on your Tizen (Samsung) TVs.",
+  "name": "youtube-focus",
+  "appName": "YouTube Focus",
+  "version": "1.0.0",
+  "description": "TizenTube fork whose home screen only shows the rows you choose (Continue watching, Subscriptions, Watch later, ...).",
   "packageType": "mods",
   "websiteURL": "https://youtube.com/tv?additionalDataUrl=http%3A%2F%2Flocalhost%3A8085%2Fdial%2Fapps%2FYouTube",
   "main": "dist/userScript.js",

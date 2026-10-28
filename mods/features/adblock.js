@@ -4,6 +4,7 @@ import resolveCommand from '../resolveCommand.js';
 import { timelyAction, longPressData, MenuServiceItemRenderer, ShelfRenderer, TileRenderer, ButtonRenderer } from '../ui/ytUI.js';
 import { findFeedbackToken } from '../utils/innerTubeCalls.js';
 import { PatchSettings } from '../ui/customYTSettings.js';
+import filterHomeRows from './homeRowFilter.js';
 import { t } from 'i18next';
 
 /**
@@ -84,6 +85,9 @@ JSON.parse = function () {
         }
       }
 
+      r.contents.tvBrowseRenderer.content.tvSurfaceContentRenderer.content.sectionListRenderer.contents =
+        filterHomeRows(r.contents.tvBrowseRenderer.content.tvSurfaceContentRenderer.content.sectionListRenderer.contents, r);
+
       processShelves(r.contents.tvBrowseRenderer.content.tvSurfaceContentRenderer.content.sectionListRenderer.contents);
     }
 
@@ -124,6 +128,8 @@ JSON.parse = function () {
     }
 
     if (r?.continuationContents?.sectionListContinuation?.contents) {
+      r.continuationContents.sectionListContinuation.contents =
+        filterHomeRows(r.continuationContents.sectionListContinuation.contents, r);
       processShelves(r.continuationContents.sectionListContinuation.contents);
     }
 

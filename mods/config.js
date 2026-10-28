@@ -71,6 +71,8 @@ const defaultConfig = {
   disableEnlargingThumbnails: false,
   enableShrinkingThumbnails: false,
   hideRelatedVideosPlayer: false,
+  enableHomeRowFilter: true,
+  showHomeRowFilterToast: true,
 };
 
 let localConfig;
