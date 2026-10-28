@@ -16,18 +16,27 @@ export const HOME_ROWS_TO_KEEP = [
 // YouTube TV reports its home page as FEtopics (the FEtopics_* ids are the topic tabs).
 const HOME_BROWSE_IDS = ['FEtopics', 'default', 'FEwhat_to_watch'];
 
-export function isHomeResponse(r, locationHash) {
+function trackingParam(r, key) {
   for (const service of r?.responseContext?.serviceTrackingParams || []) {
     for (const param of service.params || []) {
-      if (param.key === 'browse_id') {
-        return HOME_BROWSE_IDS.indexOf(param.value) !== -1;
-      }
+      if (param.key === key) return param.value;
     }
   }
+  return null;
+}
+
+// A signed-out home has no personal rows at all, only a search bar and a sign-in nudge.
+export function isSignedOut(r) {
+  return trackingParam(r, 'logged_in') === '0';
+}
+
+export function isHomeResponse(r, locationHash) {
+  const browseId = trackingParam(r, 'browse_id');
+  if (browseId !== null) return HOME_BROWSE_IDS.indexOf(browseId) !== -1;
   // Rows loaded while scrolling carry no browse_id, so fall back to the page.
   const hash = (locationHash || '').substring(1);
-  const browseId = hash.split('c=')[1]?.split('&')[0];
-  return hash === '' || hash === '/' || HOME_BROWSE_IDS.indexOf(browseId) !== -1;
+  const hashBrowseId = hash.split('c=')[1]?.split('&')[0];
+  return hash === '' || hash === '/' || HOME_BROWSE_IDS.indexOf(hashBrowseId) !== -1;
 }
 
 function textOf(text) {
@@ -39,12 +48,29 @@ function textOf(text) {
   return '';
 }
 
+// Fallback for header layouts not listed in rowTitle: the first title/headline
+// outside the row's videos (content/items), which is the row's own header.
+function findHeaderText(node, depth) {
+  if (!node || typeof node !== 'object' || depth > 6) return '';
+  for (const key of ['title', 'headline']) {
+    const text = textOf(node[key]);
+    if (text) return text;
+  }
+  for (const key of Object.keys(node)) {
+    if (key === 'content' || key === 'contents' || key === 'items') continue;
+    const text = findHeaderText(node[key], depth + 1);
+    if (text) return text;
+  }
+  return '';
+}
+
 export function rowTitle(row) {
   const shelf = row?.shelfRenderer;
   if (!shelf) return '';
   return textOf(shelf.headerRenderer?.shelfHeaderRenderer?.title) ||
     textOf(shelf.shelfHeaderRenderer?.title) ||
-    textOf(shelf.title);
+    textOf(shelf.title) ||
+    findHeaderText(shelf, 0);
 }
 
 export function isWantedRow(title, keep = HOME_ROWS_TO_KEEP) {
