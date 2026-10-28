@@ -13,6 +13,23 @@ export const HOME_ROWS_TO_KEEP = [
   'spotřební elektronik'
 ];
 
+// YouTube TV reports its home page as FEtopics (the FEtopics_* ids are the topic tabs).
+const HOME_BROWSE_IDS = ['FEtopics', 'default', 'FEwhat_to_watch'];
+
+export function isHomeResponse(r, locationHash) {
+  for (const service of r?.responseContext?.serviceTrackingParams || []) {
+    for (const param of service.params || []) {
+      if (param.key === 'browse_id') {
+        return HOME_BROWSE_IDS.indexOf(param.value) !== -1;
+      }
+    }
+  }
+  // Rows loaded while scrolling carry no browse_id, so fall back to the page.
+  const hash = (locationHash || '').substring(1);
+  const browseId = hash.split('c=')[1]?.split('&')[0];
+  return hash === '' || hash === '/' || HOME_BROWSE_IDS.indexOf(browseId) !== -1;
+}
+
 function textOf(text) {
   if (!text) return '';
   if (typeof text === 'string') return text;
@@ -36,13 +53,15 @@ export function isWantedRow(title, keep = HOME_ROWS_TO_KEEP) {
 }
 
 // Non-shelf entries are left alone. If no shelf has a readable title, YouTube
-// probably changed its format, so nothing is hidden rather than blanking home.
+// probably changed its format, so nothing is hidden rather than blanking home;
+// `types` then lists what the rows were, to show on screen for fixing the filter.
 export function filterRows(rows, keep = HOME_ROWS_TO_KEEP) {
   const kept = [];
   const hidden = [];
   const shelves = rows.filter((row) => row.shelfRenderer);
   if (!shelves.some((row) => rowTitle(row))) {
-    return { rows, kept, hidden, unreadable: shelves.length > 0 };
+    const types = rows.map((row) => Object.keys(row)[0] || '?');
+    return { rows, kept, hidden, types, unreadable: rows.length > 0 };
   }
 
   const result = rows.filter((row) => {
@@ -56,5 +75,5 @@ export function filterRows(rows, keep = HOME_ROWS_TO_KEEP) {
     return false;
   });
 
-  return { rows: result, kept, hidden, unreadable: false };
+  return { rows: result, kept, hidden, types: [], unreadable: false };
 }

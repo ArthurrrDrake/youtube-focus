@@ -334,6 +334,6 @@
     "homeRowFilter": {
         "title": "Home filter",
         "summary": "Kept: {{kept}} | Hidden: {{hidden}}",
-        "unreadable": "Could not read the row names, so nothing was hidden."
+        "unreadable": "Could not read the row names, so nothing was hidden. Found: {{types}}"
     }
 }
