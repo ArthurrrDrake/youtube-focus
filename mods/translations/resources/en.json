@@ -190,6 +190,7 @@
                     },
                     "sortSubscriptionsByAlphabet": "Sort Subscriptions Alphabetically",
                     "disableChannelsOnSidebar": "Disable Channels on Sidebar",
+                    "hideTopicsOnSidebar": "Hide Topics on Sidebar",
                     "clock": {
                         "title": "Clock",
                         "subtitle": "Display a clock on the screen",

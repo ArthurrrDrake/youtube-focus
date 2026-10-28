@@ -731,6 +731,10 @@ export default function modernUI(update, parameters) {
                     value: 'disableChannelsOnSidebar'
                 },
                 {
+                    name: t('settings.options.uiSettings.options.hideTopicsOnSidebar'),
+                    value: 'hideTopicsOnSidebar'
+                },
+                {
                     name: t('settings.options.uiSettings.options.clock.title'),
                     value: null,
                     icon: 'TIMER',

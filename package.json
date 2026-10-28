@@ -1,7 +1,7 @@
 {
   "name": "youtube-focus",
   "appName": "YouTube Focus",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "TizenTube fork whose home screen only shows the rows you choose (Continue watching, Subscriptions, Watch later, ...).",
   "packageType": "mods",
   "websiteURL": "https://youtube.com/tv?additionalDataUrl=http%3A%2F%2Flocalhost%3A8085%2Fdial%2Fapps%2FYouTube",

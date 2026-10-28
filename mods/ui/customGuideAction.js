@@ -1,6 +1,7 @@
 import { configChangeEmitter, configRead, configWrite } from "../config.js";
 import getCommandExecutor from "./customCommandExecution.js";
 import { GuideEntryRenderer } from "./ytUI.js";
+import { isTopicBrowseId } from "../utils/sidebarTopics.js";
 
 const origParse = JSON.parse;
 JSON.parse = function () {
@@ -87,6 +88,7 @@ JSON.parse = function () {
 
     const disabledSidebarContents = configRead('disabledSidebarContents');
     const disableChannelsOnSidebar = configRead('disableChannelsOnSidebar');
+    const hideTopicsOnSidebar = configRead('hideTopicsOnSidebar');
     if (r.items && Array.isArray(r.items) && r.items[0].guideSectionRenderer) {
         for (let i = 0; i < r.items.length; i++) {
             const section = r.items[i].guideSectionRenderer;
@@ -98,7 +100,8 @@ JSON.parse = function () {
                     disabledSidebarContents.includes(item.navigationEndpoint?.browseEndpoint ?
                         item.navigationEndpoint.browseEndpoint.browseId :
                         'search'))
-                    || (disableChannelsOnSidebar && item?.thumbnail)) {
+                    || (disableChannelsOnSidebar && item?.thumbnail)
+                    || (hideTopicsOnSidebar && isTopicBrowseId(item.navigationEndpoint?.browseEndpoint?.browseId))) {
                     section.items.splice(j, 1);
                     j--;
                 }
@@ -110,7 +113,7 @@ JSON.parse = function () {
 }
 
 configChangeEmitter.addEventListener('configChange', (e) => {
-    if (e.detail.key === 'disabledSidebarContents' || e.detail.key === 'disableChannelsOnSidebar' || e.detail.key === 'sidebarContentsOrder') {
+    if (e.detail.key === 'disabledSidebarContents' || e.detail.key === 'disableChannelsOnSidebar' || e.detail.key === 'hideTopicsOnSidebar' || e.detail.key === 'sidebarContentsOrder') {
         const commandExecutor = getCommandExecutor();
         if (commandExecutor) {
             commandExecutor.executeFunction(new commandExecutor.commandFunction('reloadGuideAction'));

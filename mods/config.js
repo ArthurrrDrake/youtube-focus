@@ -73,6 +73,7 @@ const defaultConfig = {
   hideRelatedVideosPlayer: false,
   enableHomeRowFilter: true,
   showHomeRowFilterToast: true,
+  hideTopicsOnSidebar: true,
 };
 
 let localConfig;
