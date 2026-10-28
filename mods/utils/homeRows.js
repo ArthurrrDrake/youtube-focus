@@ -48,20 +48,45 @@ function textOf(text) {
   return '';
 }
 
+// Keys holding a row's videos; their titles are video names, not the row's name.
+const VIDEO_KEYS = ['items', 'contents'];
+
 // Fallback for header layouts not listed in rowTitle: the first title/headline
-// outside the row's videos (content/items), which is the row's own header.
+// found outside the row's videos, which is the row's own header.
 function findHeaderText(node, depth) {
-  if (!node || typeof node !== 'object' || depth > 6) return '';
+  if (!node || typeof node !== 'object' || depth > 8) return '';
   for (const key of ['title', 'headline']) {
     const text = textOf(node[key]);
     if (text) return text;
   }
   for (const key of Object.keys(node)) {
-    if (key === 'content' || key === 'contents' || key === 'items') continue;
+    if (VIDEO_KEYS.indexOf(key) !== -1) continue;
     const text = findHeaderText(node[key], depth + 1);
     if (text) return text;
   }
   return '';
+}
+
+// Lists a row's values outside its videos as path=value lines, shown on screen
+// when row names can't be read so the filter can be taught the new layout.
+export function describeRow(row, maxLines = 14) {
+  const lines = [];
+  function walk(node, path, depth) {
+    if (!node || typeof node !== 'object' || depth > 10) return;
+    for (const key of Object.keys(node)) {
+      if (lines.length >= maxLines) return;
+      if (VIDEO_KEYS.indexOf(key) !== -1 || /trackingParams$/i.test(key)) continue;
+      const value = node[key];
+      const childPath = path ? `${path}.${key}` : key;
+      if (value !== null && typeof value === 'object') {
+        walk(value, childPath, depth + 1);
+      } else {
+        lines.push(`${childPath}=${String(value).slice(0, 48)}`);
+      }
+    }
+  }
+  walk(row, '', 0);
+  return lines;
 }
 
 export function rowTitle(row) {

@@ -335,6 +335,8 @@
         "title": "Home filter",
         "summary": "Kept: {{kept}} | Hidden: {{hidden}}",
         "signedOut": "YouTube is signed out here. Sign in to see your rows.",
-        "unreadable": "Rows not recognised: {{types}}"
+        "unreadable": "Rows not recognised: {{types}}",
+        "inspectorTitle": "Home filter: row names not found",
+        "inspectorSubtitle": "Take a photo of this list for Claude, then press Back."
     }
 }
