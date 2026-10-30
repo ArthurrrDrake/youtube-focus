@@ -4,7 +4,7 @@ import resolveCommand from '../resolveCommand.js';
 import { timelyAction, longPressData, MenuServiceItemRenderer, ShelfRenderer, TileRenderer, ButtonRenderer } from '../ui/ytUI.js';
 import { findFeedbackToken } from '../utils/innerTubeCalls.js';
 import { PatchSettings } from '../ui/customYTSettings.js';
-import applyNightMode from './nightMode.js';
+import filterHome, { filterHomeItems } from './homeFilter.js';
 import { t } from 'i18next';
 
 /**
@@ -85,7 +85,7 @@ JSON.parse = function () {
         }
       }
 
-      applyNightMode(r.contents.tvBrowseRenderer.content.tvSurfaceContentRenderer.content.sectionListRenderer, r);
+      filterHome(r.contents.tvBrowseRenderer.content.tvSurfaceContentRenderer.content.sectionListRenderer, r);
 
       processShelves(r.contents.tvBrowseRenderer.content.tvSurfaceContentRenderer.content.sectionListRenderer.contents);
     }
@@ -127,11 +127,13 @@ JSON.parse = function () {
     }
 
     if (r?.continuationContents?.sectionListContinuation?.contents) {
-      applyNightMode(r.continuationContents.sectionListContinuation, r);
+      filterHome(r.continuationContents.sectionListContinuation, r);
       processShelves(r.continuationContents.sectionListContinuation.contents);
     }
 
     if (r?.continuationContents?.horizontalListContinuation?.items) {
+      r.continuationContents.horizontalListContinuation.items =
+        filterHomeItems(r.continuationContents.horizontalListContinuation.items, r);
       deArrowify(r.continuationContents.horizontalListContinuation.items);
       hqify(r.continuationContents.horizontalListContinuation.items);
       addLongPress(r.continuationContents.horizontalListContinuation.items);

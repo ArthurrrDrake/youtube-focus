@@ -73,6 +73,7 @@ const defaultConfig = {
   hideRelatedVideosPlayer: false,
   enableNightMode: true,
   showNightModeToast: true,
+  hideWatchedOnHome: true,
   hideTopicsOnSidebar: true,
   focusDefaultsApplied: false,
 };

@@ -299,6 +299,10 @@ export default function modernUI(update, parameters) {
                     value: 'showNightModeToast'
                 },
                 {
+                    name: t('settings.options.misc.options.hideWatchedOnHome'),
+                    value: 'hideWatchedOnHome'
+                },
+                {
                     name: t('settings.options.misc.options.videoPreviews'),
                     value: 'enablePreviews'
                 },

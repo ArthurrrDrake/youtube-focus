@@ -2,6 +2,7 @@
 
 > Modified version of [TizenTube](https://github.com/reisxd/TizenTube) (GPL-3.0), changed 2026-10-28 and 2026-10-30.
 > - No Shorts anywhere (rows, tiles and the sidebar entry) and no topic tabs (Music, Gaming, News, ...) in the sidebar.
+> - Daytime home screen hides every video you have started (any progress bar), and rows left empty by that.
 > - Night mode: from 20:00 to 07:00 (TV time, set in `mods/utils/homeRows.js`) the home screen shows no rows; Search, Subscriptions and Library still work.
 > - Switches: TizenTube settings → Miscellaneous ("Enable Shorts", "Night Mode") and UI Settings ("Hide Topics on Sidebar").
 

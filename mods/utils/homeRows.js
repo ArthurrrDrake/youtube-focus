@@ -38,3 +38,35 @@ export function emptyRows(sectionList) {
   sectionList.contents = sectionList.contents.filter((row) => row.searchBarRenderer);
   sectionList.continuations = [];
 }
+
+// Progress bars on a video thumbnail: old tiles use the first, lockup view models the second.
+const PROGRESS_KEYS = ['thumbnailOverlayResumePlaybackRenderer', 'thumbnailOverlayProgressBarViewModel'];
+
+function hasAnyKey(node, keys, depth) {
+  if (!node || typeof node !== 'object' || depth > 12) return false;
+  for (const key of Object.keys(node)) {
+    if (keys.indexOf(key) !== -1) return true;
+    if (hasAnyKey(node[key], keys, depth + 1)) return true;
+  }
+  return false;
+}
+
+// A video counts as watched as soon as its thumbnail shows a progress bar, however short.
+export function isWatched(item) {
+  return hasAnyKey(item, PROGRESS_KEYS, 0);
+}
+
+export function removeWatchedItems(items) {
+  return items.filter((item) => !isWatched(item));
+}
+
+// Drops watched videos from every row, and rows left with no videos at all.
+export function removeWatched(sectionList) {
+  sectionList.contents = sectionList.contents.filter((row) => {
+    const content = row.shelfRenderer?.content;
+    const list = content && content[Object.keys(content)[0]];
+    if (!list || !Array.isArray(list.items) || !list.items.length) return true;
+    list.items = removeWatchedItems(list.items);
+    return list.items.length > 0;
+  });
+}
