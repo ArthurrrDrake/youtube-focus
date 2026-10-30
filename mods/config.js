@@ -71,9 +71,10 @@ const defaultConfig = {
   disableEnlargingThumbnails: false,
   enableShrinkingThumbnails: false,
   hideRelatedVideosPlayer: false,
-  enableHomeRowFilter: true,
-  showHomeRowFilterToast: true,
+  enableNightMode: true,
+  showNightModeToast: true,
   hideTopicsOnSidebar: true,
+  focusDefaultsApplied: false,
 };
 
 let localConfig;

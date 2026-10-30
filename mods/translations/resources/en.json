@@ -61,8 +61,8 @@
                     "hqThumbnails": "Enable High Quality Thumbnails",
                     "longPress": "Enable Long Press Actions",
                     "shorts": "Enable Shorts",
-                    "homeRowFilter": "Only Show Chosen Home Rows",
-                    "homeRowFilterToast": "Show Home Filter Summary",
+                    "nightMode": "Night Mode: Empty Home 20:00-07:00",
+                    "nightModeToast": "Show Night Mode Message",
                     "videoPreviews": "Enable Video Previews",
                     "ttWelcomeMsg": "Show TT Welcome Message",
                     "guestSignInReminder": "Show Guest Sign In Reminder",
@@ -332,12 +332,8 @@
             "subtitle": "The sidebar contents have been updated."
         }
     },
-    "homeRowFilter": {
-        "title": "Home filter",
-        "summary": "Kept: {{kept}} | Hidden: {{hidden}}",
-        "signedOut": "YouTube is signed out here. Sign in to see your rows.",
-        "unreadable": "Rows not recognised: {{types}}",
-        "inspectorTitle": "Home filter: row names not found",
-        "inspectorSubtitle": "Take a photo of this list for Claude, then press Back."
+    "nightMode": {
+        "title": "Night mode",
+        "subtitle": "Home is empty until {{hour}}:00. Search and Subscriptions still work."
     }
 }

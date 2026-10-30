@@ -7,6 +7,7 @@ import "whatwg-fetch";
 import "core-js/proposals/object-getownpropertydescriptors";
 
 import './translations/index.js'
+import "./features/focusDefaults.js";
 import "./domrect-polyfill";
 import "./features/adblock.js";
 import "./features/sponsorblock.js";

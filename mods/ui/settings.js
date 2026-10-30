@@ -291,12 +291,12 @@ export default function modernUI(update, parameters) {
                     value: 'enableShorts'
                 },
                 {
-                    name: t('settings.options.misc.options.homeRowFilter'),
-                    value: 'enableHomeRowFilter'
+                    name: t('settings.options.misc.options.nightMode'),
+                    value: 'enableNightMode'
                 },
                 {
-                    name: t('settings.options.misc.options.homeRowFilterToast'),
-                    value: 'showHomeRowFilterToast'
+                    name: t('settings.options.misc.options.nightModeToast'),
+                    value: 'showNightModeToast'
                 },
                 {
                     name: t('settings.options.misc.options.videoPreviews'),
