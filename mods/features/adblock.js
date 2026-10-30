@@ -5,6 +5,7 @@ import { timelyAction, longPressData, MenuServiceItemRenderer, ShelfRenderer, Ti
 import { findFeedbackToken } from '../utils/innerTubeCalls.js';
 import { PatchSettings } from '../ui/customYTSettings.js';
 import filterHome, { filterHomeItems } from './homeFilter.js';
+import { removeShorts } from '../utils/shorts.js';
 import { t } from 'i18next';
 
 /**
@@ -22,6 +23,12 @@ JSON.parse = function () {
   try {
     const adBlockEnabled = configRead('enableAdBlock');
     const signinReminderEnabled = configRead('enableSigninReminder');
+
+    // Shorts can sit in any list (rows, grids, up next, scroll continuations), so
+    // they are removed from the whole page before the per-page handling below.
+    if (!configRead('enableShorts')) {
+      removeShorts(r);
+    }
 
     if (r?.playbackContext?.contentPlaybackContext) {
       // Handle inline playback without ads
