@@ -303,6 +303,10 @@ export default function modernUI(update, parameters) {
                     value: 'hideWatchedOnHome'
                 },
                 {
+                    name: t('settings.options.misc.options.onlyLongVideos'),
+                    value: 'onlyLongVideos'
+                },
+                {
                     name: t('settings.options.misc.options.videoPreviews'),
                     value: 'enablePreviews'
                 },

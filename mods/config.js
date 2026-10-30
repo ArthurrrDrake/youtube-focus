@@ -74,6 +74,7 @@ const defaultConfig = {
   enableNightMode: true,
   showNightModeToast: true,
   hideWatchedOnHome: true,
+  onlyLongVideos: true,
   hideTopicsOnSidebar: true,
   focusDefaultsApplied: false,
 };

@@ -64,6 +64,7 @@
                     "nightMode": "Night Mode: Empty Home 20:00-07:00",
                     "nightModeToast": "Show Night Mode Message",
                     "hideWatchedOnHome": "Hide Started Videos on Home",
+                    "onlyLongVideos": "Only Show Videos Over 12 Minutes",
                     "videoPreviews": "Enable Video Previews",
                     "ttWelcomeMsg": "Show TT Welcome Message",
                     "guestSignInReminder": "Show Guest Sign In Reminder",

@@ -5,7 +5,7 @@ import { timelyAction, longPressData, MenuServiceItemRenderer, ShelfRenderer, Ti
 import { findFeedbackToken } from '../utils/innerTubeCalls.js';
 import { PatchSettings } from '../ui/customYTSettings.js';
 import filterHome, { filterHomeItems } from './homeFilter.js';
-import { removeShorts } from '../utils/shorts.js';
+import { removeVideos } from '../utils/videoFilters.js';
 import { t } from 'i18next';
 
 /**
@@ -24,11 +24,13 @@ JSON.parse = function () {
     const adBlockEnabled = configRead('enableAdBlock');
     const signinReminderEnabled = configRead('enableSigninReminder');
 
-    // Shorts can sit in any list (rows, grids, up next, scroll continuations), so
-    // they are removed from the whole page before the per-page handling below.
-    if (!configRead('enableShorts')) {
-      removeShorts(r);
-    }
+    // Shorts and short videos can sit in any list (rows, grids, up next, scroll
+    // continuations), so they are removed from the whole page before the per-page
+    // handling below.
+    removeVideos(r, {
+      shorts: !configRead('enableShorts'),
+      shortVideos: configRead('onlyLongVideos')
+    });
 
     if (r?.playbackContext?.contentPlaybackContext) {
       // Handle inline playback without ads
