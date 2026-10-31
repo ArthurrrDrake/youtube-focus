@@ -5,7 +5,8 @@ import { timelyAction, longPressData, MenuServiceItemRenderer, ShelfRenderer, Ti
 import { findFeedbackToken } from '../utils/innerTubeCalls.js';
 import { PatchSettings } from '../ui/customYTSettings.js';
 import filterHome, { filterHomeItems } from './homeFilter.js';
-import { removeVideos } from '../utils/videoFilters.js';
+import { removeVideos, blockPlayback } from '../utils/videoFilters.js';
+import { isLockdown, lockdownReason } from './lockdown.js';
 import { t } from 'i18next';
 
 /**
@@ -26,11 +27,16 @@ JSON.parse = function () {
 
     // Shorts and short videos can sit in any list (rows, grids, up next, scroll
     // continuations), so they are removed from the whole page before the per-page
-    // handling below.
-    removeVideos(r, {
-      shorts: !configRead('enableShorts'),
-      shortVideos: configRead('onlyLongVideos')
-    });
+    // handling below. During lockdown every list is emptied and nothing plays.
+    if (isLockdown()) {
+      removeVideos(r, { all: true });
+      blockPlayback(r, lockdownReason());
+    } else {
+      removeVideos(r, {
+        shorts: !configRead('enableShorts'),
+        shortVideos: configRead('onlyLongVideos')
+      });
+    }
 
     if (r?.playbackContext?.contentPlaybackContext) {
       // Handle inline playback without ads

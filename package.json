@@ -1,8 +1,8 @@
 {
   "name": "youtube-focus",
   "appName": "YouTube Focus",
-  "version": "1.0.8",
-  "description": "TizenTube fork without Shorts, topic tabs, videos of 12 minutes or less, or already-started videos on home, and an empty home screen at night (20:00-07:00).",
+  "version": "1.0.10",
+  "description": "TizenTube fork without Shorts, topic tabs, videos of 12 minutes or less, or already-started videos on home; empty home screen 20:00-22:00 and nothing to watch at all 22:00-07:00.",
   "packageType": "mods",
   "websiteURL": "https://youtube.com/tv?additionalDataUrl=http%3A%2F%2Flocalhost%3A8085%2Fdial%2Fapps%2FYouTube",
   "main": "dist/userScript.js",

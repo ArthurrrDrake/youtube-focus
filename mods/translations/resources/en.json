@@ -61,7 +61,7 @@
                     "hqThumbnails": "Enable High Quality Thumbnails",
                     "longPress": "Enable Long Press Actions",
                     "shorts": "Enable Shorts",
-                    "nightMode": "Night Mode: Empty Home 20:00-07:00",
+                    "nightMode": "Night Mode: Empty Home 20:00-22:00",
                     "nightModeToast": "Show Night Mode Message",
                     "hideWatchedOnHome": "Hide Started Videos on Home",
                     "onlyLongVideos": "Only Show Videos Over 12 Minutes",
@@ -337,5 +337,9 @@
     "nightMode": {
         "title": "Night mode",
         "subtitle": "Home is empty until {{hour}}:00. Search and Subscriptions still work."
+    },
+    "lockdown": {
+        "title": "YouTube is off",
+        "subtitle": "Nothing to watch until {{hour}}:00."
     }
 }

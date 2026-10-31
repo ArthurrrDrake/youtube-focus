@@ -1,12 +1,3 @@
-// Night mode: between these hours (TV's local time) the home screen shows no rows.
-export const NIGHT_START_HOUR = 20;
-export const NIGHT_END_HOUR = 7;
-
-export function isNightTime(date) {
-  const hour = date.getHours();
-  return hour >= NIGHT_START_HOUR || hour < NIGHT_END_HOUR;
-}
-
 // YouTube TV reports its home page as FEtopics (the FEtopics_* ids are the topic tabs).
 const HOME_BROWSE_IDS = ['FEtopics', 'default', 'FEwhat_to_watch'];
 

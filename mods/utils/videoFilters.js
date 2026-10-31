@@ -1,5 +1,5 @@
-// Recognises unwanted videos (Shorts, short videos) in YouTube TV responses and
-// removes them wherever they appear.
+// Recognises unwanted videos (Shorts, short videos, or everything during lockdown)
+// in YouTube TV responses and removes them wherever they appear.
 
 // Videos this long or shorter are hidden when "only long videos" is on.
 export const MIN_VIDEO_MINUTES = 12;
@@ -11,6 +11,24 @@ export function isShortsItem(el) {
   if (el.lockupViewModel?.rendererContext?.commandContext?.onTap?.innertubeCommand?.reelWatchEndpoint) return true;
   if (el.tileRenderer?.onSelectCommand?.reelWatchEndpoint) return true;
   return el.tileRenderer?.tvhtml5ShelfRendererType === 'TVHTML5_TILE_RENDERER_TYPE_SHORTS';
+}
+
+// Anything that can be opened to watch: videos, Shorts, playlists, mixes, channel tiles.
+const WATCHABLE_KEYS = ['lockupViewModel', 'tileRenderer', 'shortsLockupViewModel', 'reelItemRenderer',
+  'videoRenderer', 'compactVideoRenderer', 'gridVideoRenderer', 'playlistVideoRenderer',
+  'playlistPanelVideoRenderer', 'richItemRenderer'];
+
+export function isWatchableItem(el) {
+  if (!el || typeof el !== 'object') return false;
+  return WATCHABLE_KEYS.some((key) => el[key]);
+}
+
+// Turns a player response into an "unplayable" one, so nothing starts playing.
+export function blockPlayback(r, reason) {
+  if (!r || typeof r !== 'object' || !r.playabilityStatus) return false;
+  r.playabilityStatus = { status: 'UNPLAYABLE', reason, playableInEmbed: false };
+  delete r.streamingData;
+  return true;
 }
 
 export function isShortsShelf(el) {
@@ -79,9 +97,10 @@ function removeFrom(node, isUnwanted, depth) {
 
 // Only the parts of a response that hold pages and lists are searched, so large
 // player responses are not walked on every JSON.parse.
-export function removeVideos(r, { shorts, shortVideos }) {
-  if (!r || typeof r !== 'object' || (!shorts && !shortVideos)) return false;
-  const isUnwanted = (el) => (shorts && (isShortsItem(el) || isShortsShelf(el))) ||
+export function removeVideos(r, { shorts, shortVideos, all }) {
+  if (!r || typeof r !== 'object' || (!shorts && !shortVideos && !all)) return false;
+  const isUnwanted = (el) => (all && (isWatchableItem(el) || isShortsShelf(el))) ||
+    (shorts && (isShortsItem(el) || isShortsShelf(el))) ||
     (shortVideos && isTooShort(el));
   let removed = false;
   for (const key of ['contents', 'continuationContents', 'onResponseReceivedActions']) {

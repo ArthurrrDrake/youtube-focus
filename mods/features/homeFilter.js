@@ -1,7 +1,8 @@
 import { configRead } from '../config.js';
 import { showToast } from '../ui/ytUI.js';
 import resolveCommand from '../resolveCommand.js';
-import { isHomeHash, isHomeResponse, isNightTime, emptyRows, removeWatched, removeWatchedItems, NIGHT_END_HOUR } from '../utils/homeRows.js';
+import { isHomeHash, isHomeResponse, emptyRows, removeWatched, removeWatchedItems } from '../utils/homeRows.js';
+import { isNightTime, isLockdownTime, MORNING_HOUR } from '../utils/schedule.js';
 import { t } from 'i18next';
 
 let toastShown = false;
@@ -20,9 +21,10 @@ export default function filterHome(sectionList, r) {
   }
 
   emptyRows(sectionList);
-  if (configRead('showNightModeToast') && !toastShown) {
+  // During lockdown the lockdown message is shown instead (search doesn't work then).
+  if (configRead('showNightModeToast') && !toastShown && !isLockdownTime(new Date())) {
     toastShown = true;
-    setTimeout(() => showToast(t('nightMode.title'), t('nightMode.subtitle', { hour: NIGHT_END_HOUR })), 4000);
+    setTimeout(() => showToast(t('nightMode.title'), t('nightMode.subtitle', { hour: MORNING_HOUR })), 4000);
   }
 }
 
