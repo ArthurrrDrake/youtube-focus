@@ -1,11 +1,12 @@
-import { showToast } from '../ui/ytUI.js';
 import resolveCommand from '../resolveCommand.js';
 import { isLockdownTime, MORNING_HOUR } from '../utils/schedule.js';
-import { isHomeHash } from '../utils/homeRows.js';
+import { showScreen, removeScreen, pauseVideos, pauseOnPlay, blockKeys } from '../utils/lockdownScreen.js';
 import { t } from 'i18next';
 
-// Lockdown (22:00-07:00): every list is emptied and playback is refused in
-// adblock.js's JSON.parse hook. There is deliberately no switch for it on the TV.
+// Lockdown (22:00-07:00): a full-screen "YouTube is off" cover hides everything,
+// including pages YouTube loaded before 22:00 and keeps in memory, the remote is
+// ignored and nothing plays. adblock.js also empties every newly loaded list and
+// refuses playback. There is deliberately no switch for it on the TV.
 export function isLockdown() {
   return isLockdownTime(new Date());
 }
@@ -14,32 +15,35 @@ export function lockdownReason() {
   return t('lockdown.subtitle', { hour: MORNING_HOUR });
 }
 
-function showLockdownToast() {
-  showToast(t('lockdown.title'), lockdownReason());
+let screen = null;
+
+function closeApp() {
+  try {
+    window.tizen.application.getCurrentApplication().exit();
+  } catch (e) {
+    // Not available here; the TV's Home button still leaves the app.
+  }
 }
 
-// When lockdown starts, leave whatever is open for the (now empty) home screen.
-// While it lasts, pause anything that still plays (cached pages, casts from a phone).
-let wasLockdown = null;
-setInterval(() => {
-  const now = isLockdown();
-  if (now && wasLockdown === false) {
-    showLockdownToast();
-    try {
-      resolveCommand(isHomeHash(location.hash)
-        ? { signalAction: { signal: 'SOFT_RELOAD_PAGE' } }
-        : { browseEndpoint: { browseId: 'FEtopics' } });
-    } catch (e) {
-      console.error('Lockdown: could not reload the home screen', e);
-    }
-  } else if (now && wasLockdown === null) {
-    setTimeout(showLockdownToast, 4000);
-  }
-  wasLockdown = now;
+pauseOnPlay(document, isLockdown);
+blockKeys(window, () => !!screen, closeApp);
 
-  if (!now) return;
-  const videos = document.querySelectorAll('video');
-  for (let i = 0; i < videos.length; i++) {
-    if (!videos[i].paused) videos[i].pause();
+function update() {
+  if (isLockdown()) {
+    if (!screen && document.body) screen = showScreen(document, t('lockdown.title'), lockdownReason());
+    pauseVideos(document);
+    return;
   }
-}, 2000);
+  if (!screen) return;
+  // Morning: lift the cover and start again from a fresh home screen.
+  removeScreen(screen);
+  screen = null;
+  try {
+    resolveCommand({ browseEndpoint: { browseId: 'FEtopics' } });
+  } catch (e) {
+    console.error('Lockdown: could not open the home screen', e);
+  }
+}
+
+update();
+setInterval(update, 1000);

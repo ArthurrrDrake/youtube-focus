@@ -4,7 +4,7 @@
 > - No Shorts anywhere (rows, tiles and the sidebar entry) and no topic tabs (Music, Gaming, News, ...) in the sidebar.
 > - Daytime home screen hides every video you have started (any progress bar), and rows left empty by that.
 > - Everywhere, videos of 12:00 or shorter are hidden (`MIN_VIDEO_MINUTES` in `mods/utils/videoFilters.js`); live streams, playlists and channels show no length and stay.
-> - Schedule (TV time, set in `mods/utils/schedule.js`): 07:00-20:00 filtered YouTube; 20:00-22:00 empty home screen (Search, Subscriptions and Library still work); 22:00-07:00 lockdown: every list everywhere is empty and nothing plays (player responses are made unplayable and any playing video is paused). Lockdown has no switch on the TV on purpose.
+> - Schedule (TV time, set in `mods/utils/schedule.js`): 07:00-20:00 filtered YouTube; 20:00-22:00 empty home screen (Search, Subscriptions and Library still work); 22:00-07:00 lockdown: a full-screen "YouTube is off" cover hides everything (also pages loaded before 22:00), the remote is ignored (Back closes the app if allowed, Home always works), any video is paused the moment it starts, and newly loaded lists are emptied and playback refused. Lockdown has no switch on the TV on purpose.
 > - Switches: TizenTube settings → Miscellaneous ("Enable Shorts", "Night Mode") and UI Settings ("Hide Topics on Sidebar").
 
 # ▶️ TizenTube
